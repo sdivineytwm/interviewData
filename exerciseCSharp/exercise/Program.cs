@@ -39,14 +39,38 @@ Console.WriteLine(fullAlphaRetainWords("have a nice day") == "aaac d eehi nvy" ?
 
 string capToFront(string input)
 {
-    // todo: implement
+
+    //var caps = new string[input.Length];
+    //var inputs = input.Split("");
+    //for (int i = 0; i < input.Length-1; i++) {
+    //    if (Char.IsUpper((char)inputs[i].ToCharArray()[0])) {
+    //        caps[i] = inputs[i];
+    //        inputs[i] = "";
+    //    }
+    //}
+    //// todo: implement
+    //return $"{String.Join("", caps)}{String.Join("", inputs)}";
     return "";
 }
 
 bool getXO(string input)
 {
-    // todo: implement
-    return false;
+    int x = 0, o = 0;
+
+    var inputs = input.ToLowerInvariant().Split("");
+    if (!inputs.Contains("x") || !inputs.Contains("o")) {
+        return true;
+    }
+    for (int i = 0; i < inputs.Length - 1; i++) {
+        if (inputs[i] == "x")
+        {
+            x++;
+        }
+        else if (inputs[i] == "o") {
+            o++;
+        }
+         }
+    return x == o && (x != 0);
 }
 
 bool checkTitle(string input)
@@ -75,11 +99,18 @@ string fullAlphaRetainWords(string input)
 
 class CreatureTemplate
 {
+
+    public int Entry;
+
+    public string Name;
+
+    public long Health;
+    public int Level;
     // todo: implement
     public override string ToString()
     {
         // todo: implement
-        return "";
+        return $"{this.Entry} - {this.Name} ({this.Health}, {this.Level})";
     }
 }
 
@@ -91,7 +122,7 @@ class DbManager
     public DbManager()
     {
         connection = new SqlConnection();
-        connection.ConnectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=game;Integrated Security=SSPI;";
+        connection.ConnectionString = @"Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=game;Data Source=Vm-test";
     }
 
     public CreatureTemplate GetCreatureTemplateByEntry(int entry)
@@ -99,22 +130,25 @@ class DbManager
         CreatureTemplate newCreatureTemplate = new CreatureTemplate();
         try
         {
-            command = new SqlCommand();
+            command = new SqlCommand($"Select * from creature_template where entry={entry}");
             command.Connection = connection;
             command.CommandType = CommandType.Text;
-            command.CommandText = ""; // todo: implement
-            command.Parameters.Add("entry", SqlDbType.Int).Value = entry;
             connection.Open();
             SqlDataReader reader = command.ExecuteReader();
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    // todo: implement
+                    newCreatureTemplate.Name =  reader["Name"].ToString();
+                    newCreatureTemplate.Health = (long)reader["Health"];
+                    newCreatureTemplate.Level = (int)reader["Level"];
+                     newCreatureTemplate.Health = (int)reader["Entry"];
                 }
             }
         }
-        catch { }
+        catch(Exception q){
+            Console.WriteLine($"{q.Message}: {(q.InnerException is null ? "" : q.InnerException.Message)}");
+        }
         finally
         {
             connection.Close();
