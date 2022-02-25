@@ -1,9 +1,29 @@
-﻿class Program
+﻿using System.Text;
+class Program
 {
     static string capToFront(string input)
     {
         // todo: implement
-        return "";
+        // ASC 65-90 
+
+        var sb = new StringBuilder();
+        var index = 0;
+        foreach ( var c in input)
+        {
+            if (c>=65 && c <= 90  ) // ascii 
+            {
+                sb.Insert(index++, c);
+            }
+            else
+            {
+                sb.Append(c);
+            }
+          
+        }
+
+
+        Console.WriteLine($"{input}, {sb.ToString()}");
+        return   sb.ToString();
     }
 
     static bool getXO(string input)
@@ -21,13 +41,35 @@
     static int[] rotateRight(int[] input)
     {
         // todo: implement
-        return new int[1];
+        //Console.WriteLine("rotateRight tests:");
+        //Console.WriteLine(Enumerable.SequenceEqual(rotateRight(new int[] { 1, 2, 3, 4, 5 }), new int[] { 5, 1, 2, 3, 4 }) ? "PASSED" : "FAILED");
+        //Console.WriteLine(Enumerable.SequenceEqual(rotateRight(new int[] { 6, 7, 8 }), new int[] { 8, 6, 7 }) ? "PASSED" : "FAILED");
+        // STEP 1 : REVERSE -> 5,4,3,2,1
+        // STEP SPLIT into two 5,4,3,2 
+        var n = input.Length;
+        var result = new int[n];
+        result[0] = input[n - 1];
+        for (var i = 0; i < n-1 ; i++)
+        {
+            result[i+1] = input[i];
+        }
+
+        return result;
     }
 
     static bool isPalindrome(string input)
     {
-        // todo: implement
-        return false;
+        var n = input.Length-1;
+        var start = 0;
+        var end = n;
+        while (start < end)
+        {
+            if (input[start++] != input[end--])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     static string fullAlphaRetainWords(string input)
@@ -64,14 +106,15 @@
         {
             logData("hello world");
         }
-        public static void logData(string data)
+        public static async Task<void> logData(string data)
         {
-            string logfileName = Path.GetTempFileName();
+            string logfileName =await  Path.GetTempFileNameAsync();
             using (StreamWriter sw = new StreamWriter(logfileName))
             {
                 sw.WriteLine(data);
                 Console.WriteLine(data);
             }
+            return Task.FromResult();
         }
     }
 
@@ -79,6 +122,20 @@
     {
         Console.WriteLine("capToFront tests:");
         Console.WriteLine(capToFront("hApPy") == "APhpy" ? "PASSED" : "FAILED");
+        // Arrange
+        var inp = "hApPy";
+        // ACt 
+        var result = capToFront("hApPy");
+        var wrongAns = "";
+        ///
+        // ARRANGe 
+        // ACt 
+        // ASSEER
+        Assert.Equal(inp, result);
+        Assert.Not(inp)
+
+
+
         Console.WriteLine(capToFront("moveMENT") == "MENTmove" ? "PASSED" : "FAILED");
         Console.WriteLine(capToFront("shOrtCAKE") == "OCAKEshrt" ? "PASSED" : "FAILED");
 

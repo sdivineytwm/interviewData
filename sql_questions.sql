@@ -26,3 +26,56 @@
 -- Any idea how you would change the current DB schema to support this?
 
 
+--[dbo].[DimProduct]
+--[dbo].[DimProductSubcategory]
+--[dbo].[DimProductCategory]
+
+-- 1
+--Select  ProductCategoryName,C.ProductSubcategoryName, Count(1) ToTalproducts 
+--	from DimProductCategory P 
+--	Inner Join DimProductSubcategory C On P.ProductCategoryKey=C.ProductCategoryKey
+--	Inner Join DimProduct D On D.ProductSubcategoryKey = C.ProductSubcategoryKey
+--	Group By ProductCategoryName,ProductSubcategoryName
+
+-- 1 follow up 
+Select  ProductCategoryName,C.ProductSubcategoryName,AVG(D.UnitCost) ToTalproducts 
+	from DimProductCategory P 
+	Inner Join DimProductSubcategory C On P.ProductCategoryKey=C.ProductCategoryKey
+	Inner Join DimProduct D On D.ProductSubcategoryKey = C.ProductSubcategoryKey
+	Group By ProductCategoryName,ProductSubcategoryName
+
+--Select * from DimProductCategory
+--select * from DimProductSubcategory
+-- rollup , cube 
+
+--[dbo].[DimStore] -- CloseDate is Not Null - Closed 
+--[dbo].[DimMachine]
+-- 2. Show list of all Store Names along with the total number of machines associated with each store. Exclude stores which are closed.
+-- Follow up: Use a window function instead of group by to find the same result (or use group by if window function was used already).
+--Select D.StoreName,Count(1) Machines  from DimStore D 
+--	INNER JOIN DimMachine M On D.StoreKey=M.StoreKey
+--	Where CloseDate is Not Null
+--	Group By StoreName	
+
+
+--	Select * from 
+--	(Select D.StoreName,
+--	COUNT(1) OVER (Partition by StoreName Order By StoreName)  from DimStore D 
+--	INNER JOIN DimMachine M On D.StoreKey=M.StoreKey
+--	Where CloseDate is Not Null) 
+
+	--4. Show a list of all customers whose birthday is today.
+	--Select * from DimCustomer Where DATE_PART(DAY,BirthDate)=0
+	---Select date-- -- 
+	--5. Which employee of the employees no longer with the company (has EndDate in DimEmployee) had the longest duration of employment (in days)?
+	
+	Select
+	
+	 A.*
+	
+	from DimEmployee A INNER JOIN DimEmployee B
+	ON A.EmployeeKey=B.EmployeeKey
+	Where B.EndDate is Not null 
+	Order By DATEDIFF(day,A.StartDate,b.EndDate) DESC
+
+	-- 1.. s1 .. e1.. 1... s1..e1
