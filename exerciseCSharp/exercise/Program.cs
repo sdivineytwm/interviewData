@@ -2,8 +2,30 @@
 {
     static string capToFront(string input)
     {
+        var upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        char[] characters = input.ToCharArray();
+
+        var result = string.Empty;
+
+        foreach (var character in characters)
+        {
+            if (upperCaseLetters.Contains(character))
+            {
+                result += character;
+            }
+        }
+
+        foreach (var character in characters)
+        {
+            if (!upperCaseLetters.Contains(character))
+            {
+                result += character;
+            }
+        }
+
         // todo: implement
-        return "";
+        return result;
     }
 
     static bool getXO(string input)
@@ -20,14 +42,34 @@
 
     static int[] rotateRight(int[] input)
     {
+
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (i < input.Length - 1)
+                input[i + 1] = input[i];
+            else
+                input[0] = input[i];
+        }
+
         // todo: implement
-        return new int[1];
+        return input;
     }
 
     static bool isPalindrome(string input)
     {
+        char[] characters = input.ToCharArray();
+
+        Array.Reverse(characters);
+
+        var reverStr = "";
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            reverStr += characters[i];
+        }
+        
         // todo: implement
-        return false;
+        return input == reverStr;
     }
 
     static string fullAlphaRetainWords(string input)
@@ -112,7 +154,7 @@
         Console.WriteLine(fullAlphaRetainWords("hello world") == "dehll loorw" ? "PASSED" : "FAILED");
         Console.WriteLine(fullAlphaRetainWords("total wine and more") == "aadee ilmn noo rttw" ? "PASSED" : "FAILED");
         Console.WriteLine(fullAlphaRetainWords("have a nice day") == "aaac d eehi nvy" ? "PASSED" : "FAILED");
-        
+
         Sync.logData("hello world");
     }
 }

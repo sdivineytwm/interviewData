@@ -26,3 +26,27 @@
 -- Any idea how you would change the current DB schema to support this?
 
 
+--SELECT pc.ProductCategoryName, COUNT(*)  FROM DimProductSubcategory psc 
+--INNER JOIN DimProduct p ON psc.ProductSubcategoryKey = p.ProductSubcategoryKey 
+--INNER JOIN DimProductCategory pc ON psc.ProductCategoryKey = pc.ProductCategoryKey
+--GROUP BY pc.ProductCategoryName
+
+--SELECT pc.ProductCategoryName, psc.ProductSubcategoryName, AVG(p.UnitCost) AvarageCost  FROM DimProductSubcategory psc 
+--INNER JOIN DimProduct p ON psc.ProductSubcategoryKey = p.ProductSubcategoryKey 
+--INNER JOIN DimProductCategory pc ON psc.ProductCategoryKey = pc.ProductCategoryKey
+--GROUP BY pc.ProductCategoryName, psc.ProductSubcategoryName
+
+--SELECT S.StoreKey, S.StoreName, COUNT(*) TotalMachines FROM DimStore s INNER JOIN DimMachine M ON s.StoreKey = M.StoreKey
+--GROUP BY S.StoreKey, S.StoreName, S.CloseDate
+--HaVING s.CloseDate IS NULL
+
+--SELECT DISTINCT S.StoreName, (SELECT COUNT(*) FROM DimMachine WHERE StoreKey = s.StoreKey) FROM DimStore S
+
+--SELECT * FROM FactSales fs INNER JOIN DimPromotion p ON fs.PromotionKey = p.PromotionKey
+--WHERE fs.DateKey < p.StartDate OR fs.DateKey > p.EndDate
+
+--SELECT * FROM DimCustomer --WHERE CONVERT(varchar(10), BirthDate) = '02/25'
+
+
+--SELECT * FROM DimEmployee WHERE 
+--SELECT top 1 DATEDIFF(Day, StartDate, EndDate) TotalDays FROM DimEmployee where EndDate IS NOT NULL ORDER by TotalDays desc
