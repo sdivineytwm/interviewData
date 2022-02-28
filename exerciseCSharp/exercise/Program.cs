@@ -1,41 +1,57 @@
 ﻿class Program
 {
+    // Create a function (capToFront) that moves all capital letters to the front of a word.
+    // Keep the original relative order of the upper and lowercase letters the same.
     static string capToFront(string input)
     {
         // todo: implement
         return "";
     }
 
+    // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
+    // Return a boolean value. Return true if the amount of x’s and o’s are the same. Return false if they aren’t the same amount.
+    // The string can contain any character.
+    // When “x” and “o” are not in the string, return true.
     static bool getXO(string input)
     {
         // todo: implement
         return false;
     }
 
+    // Create a function (checkTitle) for checking if a string title is a title string or not.
+    // A title string is one which has all the words in the string start with an uppercase letter.
     static bool checkTitle(string input)
     {
         // todo: implement
         return false;
     }
 
+    // Implement a function (rotateRight) which takes an array of integers and shifts each element one position to the right in a circular fashion.
     static int[] rotateRight(int[] input)
     {
         // todo: implement
         return new int[1];
     }
 
+    // Create a function (isPalindrome) which takes a string and returns true if it’s the same forwards or backwards.
     static bool isPalindrome(string input)
     {
         // todo: implement
         return false;
     }
 
+    // Create a function (fullAlphaRetainWords) which takes every letter in every word and puts it in alphabetical order, while retaining the original word lengths.
     static string fullAlphaRetainWords(string input)
     {
         // todo: implement
         return "";
     }
 
+    // Implement the GetCustomerByCustomerKey data layer function.
+    // It should fetch data from the dbo.DimCustomer table.
+    // When ToString is called on the Customer object, data should be displayed in the following format:
+    // “CustomerKey - Title FirstName MiddleName LastName”.
+    // Note that Title and MiddleName may be null. If this is the case, there should still only be 1 space between each field in the ToString output.
     class Customer
     {
         // todo: implement
@@ -54,10 +70,12 @@
             return new Customer();
         }
 
+        // Follow up - implement GetCustomersWithBirthDateBeforeDate.
+        // Passed a single parameter with Date type and returns a collection of all customers whose BirthDate occurs earlier in time than the param.
         // GetCustomersWithBirthDateBeforeDate(DateTime beforeDate)
     }
 
-    // Transform into Async version
+    // Transform the Sync class into a version that is asynchronous
     class Sync
     {
         static void Main(string[] args)
@@ -95,9 +113,9 @@
 
         DbManager test = new DbManager();
         Console.WriteLine("DBManager tests:");
-        Console.WriteLine(test.GetCustomerByCustomerKey(133).ToString() == "133 - Melissa E Richardson (F)" ? "PASSED" : "FAILED");
-        Console.WriteLine(test.GetCustomerByCustomerKey(150).ToString() == "150 - Theodore Gill (M)" ? "PASSED" : "FAILED");
-        Console.WriteLine(test.GetCustomerByCustomerKey(953).ToString() == "953 - Ms. Dorothy B. Robinson (M)" ? "PASSED" : "FAILED");
+        Console.WriteLine(test.GetCustomerByCustomerKey(133).ToString() == "133 - Melissa E Richardson" ? "PASSED" : "FAILED");
+        Console.WriteLine(test.GetCustomerByCustomerKey(150).ToString() == "150 - Theodore Gill" ? "PASSED" : "FAILED");
+        Console.WriteLine(test.GetCustomerByCustomerKey(953).ToString() == "953 - Ms. Dorothy B. Robinson" ? "PASSED" : "FAILED");
 
         Console.WriteLine("rotateRight tests:");
         Console.WriteLine(Enumerable.SequenceEqual(rotateRight(new int[] { 1, 2, 3, 4, 5 }), new int[] { 5, 1, 2, 3, 4 }) ? "PASSED" : "FAILED");
