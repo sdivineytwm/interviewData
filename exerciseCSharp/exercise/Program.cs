@@ -93,6 +93,71 @@
         }
     }
 
+    public class Node
+    {
+        public Node? next;
+        public Object? data;
+    }
+    public class LinkedList
+    {
+        public Node head;
+        public string printAllNodes()
+        {
+            string output = "";
+            Node current = head;
+            while (current != null)
+            {
+                output += current.data + " -> ";
+                current = current.next;
+            }
+            return output;
+        }
+
+        public void AddFirst(Object data)
+        {
+            Node toAdd = new Node();
+
+            toAdd.data = data;
+            toAdd.next = head;
+
+            head = toAdd;
+        }
+        public void AddLast(Object data)
+        {
+            if (head == null)
+            {
+                head = new Node();
+
+                head.data = data;
+                head.next = null;
+            }
+            else
+            {
+                Node toAdd = new Node();
+                toAdd.data = data;
+
+                Node current = head;
+                while (current.next != null)
+                {
+                    current = current.next;
+                }
+
+                current.next = toAdd;
+            }
+        }
+    }
+    /*
+     * Implement the reverseLinkedList function.
+     * This should mutate a LinkedList object in place such that the Nodes are output in the opposite order by printAllNodes().
+     * Every LinkedList object has a “head” Node.
+     * Each Node has a “data” property storing the value of the Node and a “next” property which is a pointer to the next Node in the LinkedList.
+     * Example A → B → C → D → becomes D → C → B → A →
+     */
+    public static void reverseLinkedList(ref Node root)
+    {
+        // todo: implement
+    }
+
     public static void Main(string[] args)
     {
         Console.WriteLine("capToFront tests:");
@@ -132,5 +197,14 @@
         Console.WriteLine(fullAlphaRetainWords("have a nice day") == "aaac d eehi nvy" ? "PASSED" : "FAILED");
         
         Sync.logData("hello world");
+
+        LinkedList test1 = new LinkedList();
+        test1.AddLast("A");
+        test1.AddLast("B");
+        test1.AddLast("C");
+        test1.AddLast("D");
+        Console.WriteLine("reverseLinkedList tests:");
+        reverseLinkedList(ref test1.head);
+        Console.WriteLine(test1.printAllNodes() == "D -> C -> B -> A -> " ? "PASSED" : "FAILED");
     }
 }
