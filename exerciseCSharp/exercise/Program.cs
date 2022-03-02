@@ -1,11 +1,29 @@
-﻿class Program
+﻿using exercise.Models;
+using System.Text;
+
+public class Program
 {
     // Create a function (capToFront) that moves all capital letters to the front of a word.
     // Keep the original relative order of the upper and lowercase letters the same.
-    static string capToFront(string input)
+   public static string capToFront(string input)
     {
+        var uppercaseLatter = new StringBuilder();
+        var lowercaseLatter = new StringBuilder();
+
+        for (int i = 0; i < input.Length; i++)
+        {
+            char ch = input[i];
+            if (Char.IsUpper(ch))
+            {
+                uppercaseLatter.Append(ch);
+            }
+            else
+            {
+                lowercaseLatter.Append(ch);
+            }
+        }
         // todo: implement
-        return "";
+        return uppercaseLatter.Append(lowercaseLatter).ToString();
     }
 
     // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
@@ -36,6 +54,9 @@
     // Create a function (isPalindrome) which takes a string and returns true if it’s the same forwards or backwards.
     static bool isPalindrome(string input)
     {
+        if (input.Reverse().ToString() == input)
+            return true;
+
         // todo: implement
         return false;
     }
@@ -66,8 +87,15 @@
     {
         public Customer GetCustomerByCustomerKey(int customerKey)
         {
-            // todo: implement
+            using(var context = new ContosoRetailDWContext())
+            {
+                var customer = context.DimCustomers.Where(c => c.CustomerKey == customerKey).FirstOrDefault();
+
+// todo: implement
             return new Customer();
+            }
+
+            
         }
 
         // Follow up - implement GetCustomersWithBirthDateBeforeDate.
