@@ -93,59 +93,6 @@
         }
     }
 
-    public class Node
-    {
-        public Node? next;
-        public Object? data;
-    }
-    public class LinkedList
-    {
-        public Node head;
-        public string printAllNodes()
-        {
-            string output = "";
-            Node current = head;
-            while (current != null)
-            {
-                output += current.data + " -> ";
-                current = current.next;
-            }
-            return output;
-        }
-
-        public void AddFirst(Object data)
-        {
-            Node toAdd = new Node();
-
-            toAdd.data = data;
-            toAdd.next = head;
-
-            head = toAdd;
-        }
-        public void AddLast(Object data)
-        {
-            if (head == null)
-            {
-                head = new Node();
-
-                head.data = data;
-                head.next = null;
-            }
-            else
-            {
-                Node toAdd = new Node();
-                toAdd.data = data;
-
-                Node current = head;
-                while (current.next != null)
-                {
-                    current = current.next;
-                }
-
-                current.next = toAdd;
-            }
-        }
-    }
     /*
      * Implement the reverseLinkedList function.
      * This should mutate a LinkedList object in place such that the Nodes are output in the opposite order by printAllNodes().
@@ -206,5 +153,242 @@
         Console.WriteLine("reverseLinkedList tests:");
         reverseLinkedList(ref test1.head);
         Console.WriteLine(test1.printAllNodes() == "D -> C -> B -> A -> " ? "PASSED" : "FAILED");
+
+        Console.WriteLine("reverseLinkedList tests:");
+        BTree btr = new BTree();
+        btr.Add(6);
+        btr.Add(2);
+        btr.Add(3);
+        btr.Add(11);
+        btr.Add(30);
+        btr.Add(9);
+        btr.Add(13);
+        btr.Add(18);
+        BTreePrinter.Print(btr._root);
+        btr.Invert(ref btr._root);
+        BTreePrinter.Print(btr._root);
+    }
+}
+public class Node
+{
+    public Node? next;
+    public Object? data;
+}
+public class LinkedList
+{
+    public Node head;
+    public string printAllNodes()
+    {
+        string output = "";
+        Node current = head;
+        while (current != null)
+        {
+            output += current.data + " -> ";
+            current = current.next;
+        }
+        return output;
+    }
+
+    public void AddFirst(Object data)
+    {
+        Node toAdd = new Node();
+
+        toAdd.data = data;
+        toAdd.next = head;
+
+        head = toAdd;
+    }
+    public void AddLast(Object data)
+    {
+        if (head == null)
+        {
+            head = new Node();
+
+            head.data = data;
+            head.next = null;
+        }
+        else
+        {
+            Node toAdd = new Node();
+            toAdd.data = data;
+
+            Node current = head;
+            while (current.next != null)
+            {
+                current = current.next;
+            }
+
+            current.next = toAdd;
+        }
+    }
+}
+public class BTree
+{
+    public BNode _root;
+    private int _count;
+    private IComparer<int> _comparer = Comparer<int>.Default;
+    public class BNode
+    {
+        public int Value;
+        public BNode LeftChild;
+        public BNode RightChild;
+        public BNode(int value)
+        {
+            this.Value = value;
+        }
+    }
+
+    public BNode Invert(ref BNode node)
+    {
+        // todo: implement
+        return node;
+    }
+
+    public bool Add(int Item)
+    {
+        if (_root == null)
+        {
+            _root = new BNode(Item);
+            _count++;
+            return true;
+        }
+        else
+        {
+            return Add_Sub(_root, Item);
+        }
+    }
+
+    private bool Add_Sub(BNode Node, int Item)
+    {
+        if (_comparer.Compare(Node.Value, Item) < 0)
+        {
+            if (Node.RightChild == null)
+            {
+                Node.RightChild = new BNode(Item);
+                _count++;
+                return true;
+            }
+            else
+            {
+                return Add_Sub(Node.RightChild, Item);
+            }
+        }
+        else if (_comparer.Compare(Node.Value, Item) > 0)
+        {
+            if (Node.LeftChild == null)
+            {
+                Node.LeftChild = new BNode(Item);
+                _count++;
+                return true;
+            }
+            else
+            {
+                return Add_Sub(Node.LeftChild, Item);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
+
+public static class BTreePrinter
+{
+    class NodeInfo
+    {
+        public BTree.BNode Node;
+        public string Text;
+        public int StartPos;
+        public int Size { get { return Text.Length; } }
+        public int EndPos { get { return StartPos + Size; } set { StartPos = value - Size; } }
+        public NodeInfo Parent, Left, Right;
+    }
+
+    public static void Print(this BTree.BNode root, int topMargin = 2, int leftMargin = 2)
+    {
+        if (root == null) return;
+        int rootTop = Console.CursorTop + topMargin;
+        var last = new List<NodeInfo>();
+        var next = root;
+        for (int level = 0; next != null; level++)
+        {
+            var item = new NodeInfo { Node = next, Text = next.Value.ToString(" 0 ") };
+            if (level < last.Count)
+            {
+                item.StartPos = last[level].EndPos + 1;
+                last[level] = item;
+            }
+            else
+            {
+                item.StartPos = leftMargin;
+                last.Add(item);
+            }
+            if (level > 0)
+            {
+                item.Parent = last[level - 1];
+                if (next == item.Parent.Node.LeftChild)
+                {
+                    item.Parent.Left = item;
+                    item.EndPos = Math.Max(item.EndPos, item.Parent.StartPos);
+                }
+                else
+                {
+                    item.Parent.Right = item;
+                    item.StartPos = Math.Max(item.StartPos, item.Parent.EndPos);
+                }
+            }
+            next = next.LeftChild ?? next.RightChild;
+            for (; next == null; item = item.Parent)
+            {
+                Print(item, rootTop + 2 * level);
+                if (--level < 0) break;
+                if (item == item.Parent.Left)
+                {
+                    item.Parent.StartPos = item.EndPos;
+                    next = item.Parent.Node.RightChild;
+                }
+                else
+                {
+                    if (item.Parent.Left == null)
+                        item.Parent.EndPos = item.StartPos;
+                    else
+                        item.Parent.StartPos += (item.StartPos - item.Parent.EndPos) / 2;
+                }
+            }
+        }
+        Console.SetCursorPosition(0, rootTop + 2 * last.Count - 1);
+    }
+
+    private static void Print(NodeInfo item, int top)
+    {
+        SwapColors();
+        Print(item.Text, top, item.StartPos);
+        SwapColors();
+        if (item.Left != null)
+            PrintLink(top + 1, "┌", "┘", item.Left.StartPos + item.Left.Size / 2, item.StartPos);
+        if (item.Right != null)
+            PrintLink(top + 1, "└", "┐", item.EndPos - 1, item.Right.StartPos + item.Right.Size / 2);
+    }
+
+    private static void PrintLink(int top, string start, string end, int startPos, int endPos)
+    {
+        Print(start, top, startPos);
+        Print("─", top, startPos + 1, endPos);
+        Print(end, top, endPos);
+    }
+
+    private static void Print(string s, int top, int left, int right = -1)
+    {
+        Console.SetCursorPosition(left, top);
+        if (right < 0) right = left + s.Length;
+        while (Console.CursorLeft < right) Console.Write(s);
+    }
+
+    private static void SwapColors()
+    {
+        var color = Console.ForegroundColor;
+        Console.ForegroundColor = Console.BackgroundColor;
+        Console.BackgroundColor = color;
     }
 }
