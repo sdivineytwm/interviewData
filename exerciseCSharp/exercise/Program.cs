@@ -164,15 +164,18 @@ public class Node
 }
 public class LinkedList
 {
+    // This should loop through the LinkedList starting from the first element and output the value of each Node separated by the string, “ -> “
     public string PrintAllNodes()
     {
         // todo: implement
         return "";
     }
+    // Inserts a new element as the first Node of the list.
     public void AddFirst(Object data)
     {
         // todo: implement
     }
+    // Appends a new element as the last Node of the list.
     public void AddLast(Object data)
     {
         // todo: implement
