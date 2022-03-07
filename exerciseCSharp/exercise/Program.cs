@@ -4,8 +4,28 @@
     // Keep the original relative order of the upper and lowercase letters the same.
     static string capToFront(string input)
     {
+        //"hApPy") == "APhpy"
         // todo: implement
-        return "";
+        string uppercaseLetters = "";
+        string lowercaseLetters = "";
+
+        foreach(char c in input)
+        {
+            if (Char.IsLower(c))
+            {
+                lowercaseLetters += c.ToString();
+            }
+            else
+            {
+                uppercaseLetters += c.ToString();
+            }
+
+
+        }
+
+        string returnString = uppercaseLetters + lowercaseLetters;
+
+        return returnString;
     }
 
     // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
@@ -30,20 +50,53 @@
     static int[] rotateRight(int[] input)
     {
         // todo: implement
-        return new int[1];
+        //[1,2,3]
+        //[3,1,2]
+
+
+        int tmp = input[input.Length - 1]; //3
+        for(int i = 0; i < input.Length - 1; i++)
+        {
+            int internalTmp = input[i];
+            input[i] = tmp;
+            tmp = internalTmp;
+
+
+        }
+        input[input.Length - 1] = tmp;
+
+        return input;
     }
 
     // Create a function (isPalindrome) which takes a string and returns true if it’s the same forwards or backwards.
     static bool isPalindrome(string input)
     {
         // todo: implement
-        return false;
+        int mid = input.Length / 2;
+        for(int i = 0; i< mid; i++)
+        {
+            if(input[i] != input[input.Length - i -1 ])
+            {
+                return false;
+            }
+        }
+
+
+        return true;
     }
 
     // Create a function (fullAlphaRetainWords) which takes every letter in every word and puts it in alphabetical order, while retaining the original word lengths.
     static string fullAlphaRetainWords(string input)
     {
         // todo: implement
+        //"hello world") == "dehll loorw" 
+
+        //split into array into string[]
+
+        //sort individual
+
+        // rebuild
+
         return "";
     }
 
@@ -67,6 +120,10 @@
         public Customer GetCustomerByCustomerKey(int customerKey)
         {
             // todo: implement
+
+
+
+
             return new Customer();
         }
 
@@ -78,16 +135,17 @@
     // Transform the Sync class into a version that is asynchronous
     class Sync
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            logData("hello world");
+             await logData("hello world");
         }
-        public static void logData(string data)
+        public static async Task logData(string data)
         {
             string logfileName = Path.GetTempFileName();
+
             using (StreamWriter sw = new StreamWriter(logfileName))
             {
-                sw.WriteLine(data);
+               await sw.WriteAsync(data);
                 Console.WriteLine(data);
             }
         }
@@ -156,6 +214,18 @@
     public static void reverseLinkedList(ref Node root)
     {
         // todo: implement
+        Node previousNode = root; //A
+        Node currentNode = root.next; //B
+        while(currentNode != null)
+        {
+            Node tmp = currentNode.next; //C
+            currentNode.next = previousNode; // B -> A
+            previousNode = currentNode; // A set to B
+            currentNode = tmp; // C
+
+        }
+
+
     }
 
     public static void Main(string[] args)
