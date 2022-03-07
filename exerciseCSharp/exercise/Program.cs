@@ -139,8 +139,8 @@
         test1.AddLast("C");
         test1.AddLast("D");
         Console.WriteLine("reverseLinkedList tests:");
-        //reverseLinkedList(ref test1.head);
-        Console.WriteLine(test1.printAllNodes() == "D -> C -> B -> A -> " ? "PASSED" : "FAILED");
+        test1.Reverse();
+        Console.WriteLine(test1.PrintAllNodes() == "D -> C -> B -> A -> " ? "PASSED" : "FAILED");
 
         Console.WriteLine("invertBTree tests:");
         BTree btr = new BTree();
