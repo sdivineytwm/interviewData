@@ -1,11 +1,27 @@
-﻿class Program
+﻿using System.Data.SqlClient;
+using System.Data;
+class Program
 {
     // Create a function (capToFront) that moves all capital letters to the front of a word.
     // Keep the original relative order of the upper and lowercase letters the same.
     static string capToFront(string input)
     {
+        char[] ch = input.ToCharArray();
+        // ch.OrderByDescending
+        string us = "";
+        string ls = "";
+        foreach(char c in ch)
+        {
+            if (char.IsUpper(c))
+            {
+                us += c.ToString();
+            }
+            else
+                ls += c.ToString();
+        }
+
         // todo: implement
-        return "";
+        return us + ls ;
     }
 
     // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
@@ -54,11 +70,20 @@
     // Note that Title and MiddleName may be null. If this is the case, there should still only be 1 space between each field in the ToString output.
     class Customer
     {
+        public string CustomerFirstName{get;set;}
+        public string CustomerMidName { get; set; }
+        public string CustomerLastName { get; set; }
+        public string CustomerTtile { get; set; }
+
+        public int CustomerKey { get; set; }
+
+
         // todo: implement
         public override string ToString()
         {
             // todo: implement
-            return "";
+            //"133 - Melissa E Richardson"
+            return CustomerKey+" - "+CustomerFirstName+" "+ CustomerMidName+" "+ CustomerLastName;
         }
     }
 
@@ -67,6 +92,28 @@
         public Customer GetCustomerByCustomerKey(int customerKey)
         {
             // todo: implement
+
+            //string conStr = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=ContosoRetailDW;Integrated Security=SSPI;";
+            //SqlConnection sqlCon;
+            //DataTable dt = new DataTable();
+            //using (sqlCon = new SqlConnection(conStr))
+            //{
+            //    sqlCon.Open();
+            //    string strQry = "select * from dimCustomer where CustomerKey="+ customerKey;
+            //    SqlDataAdapter sqlData = new SqlDataAdapter(strQry, sqlCon);
+
+            //    sqlData.Fill(dt);
+            //}
+            //var customer = new Customer();
+            //foreach(DataRow dr in dt.Rows)
+            //{
+            //    customer.CustomerFirstName = Convert.ToString(dr["FirstName"]);
+            //    customer.CustomerMidName = Convert.ToString(dr["MiddleName"]);
+            //    customer.CustomerLastName = Convert.ToString(dr["LastName"]);
+            //    customer.CustomerTtile = Convert.ToString(dr["Title"]);
+            //    customer.CustomerKey = Convert.ToInt32(dr["CustomerKey"]);
+            //}
+
             return new Customer();
         }
 
@@ -161,10 +208,22 @@
 public class Node
 {
     // todo: implement
+    public string data { get; set; }
+    public Node next;
+    public Node(string data)
+    {
+        this.data = data;
+        next = null;
+    }
 }
 public class LinkedList
 {
+    Node root;
     // This should loop through the LinkedList starting from the first element and output the value of each Node separated by the string, “ -> “
+    public LinkedList()
+    {
+        root = new Node(null);
+    }
     public string PrintAllNodes()
     {
         // todo: implement
@@ -174,11 +233,37 @@ public class LinkedList
     public void AddFirst(Object data)
     {
         // todo: implement
+        if(root.data==null)
+        {
+            root.data = data.ToString();
+            root.next = new Node("");
+        }
+        else
+        {
+
+        }
     }
     // Appends a new element as the last Node of the list.
     public void AddLast(Object data)
     {
         // todo: implement
+        if (root.data == null)
+        {
+            root.data = data.ToString();
+            root.next = new Node("");
+        }
+        else
+        {
+           while(root.next==null)
+            {
+                if(root.next==null)
+                {
+                    Node nd = new Node(data.ToString());
+                    nd.next = null;
+                    root.next = nd;
+                }
+            }
+        }
     }
     // Should mutate a LinkedList object in place such that the Nodes are output in the opposite order by PrintAllNodes().
     // Example A → B → C → D → becomes D → C → B → A →
@@ -205,7 +290,15 @@ public class BTree
 
     public BNode Invert(ref BNode node)
     {
+        if (node == null) return node;
         // todo: implement
+        BNode tmpNode = node.LeftChild;
+        node.LeftChild = node.RightChild;
+        node.RightChild = tmpNode;
+
+        Invert(ref node.LeftChild);
+        Invert(ref node.RightChild);
+
         return node;
     }
 
