@@ -160,25 +160,52 @@
 
 public class Node
 {
-    // todo: implement
+    public Node? next;
+    public Object? data;
 }
 public class LinkedList
 {
+    public Node head;
     // This should loop through the LinkedList starting from the first element and output the value of each Node separated by the string, “ -> “
     public string PrintAllNodes()
     {
-        // todo: implement
-        return "";
+        string output = "";
+        Node current = head;
+        while (current != null)
+        {
+            output += current.data + " -> ";
+            current = current.next;
+        }
+        return output;
     }
     // Inserts a new element as the first Node of the list.
     public void AddFirst(Object data)
     {
-        // todo: implement
+        Node toAdd = new Node();
+        toAdd.data = data;
+        toAdd.next = head;
+        head = toAdd;
     }
     // Appends a new element as the last Node of the list.
     public void AddLast(Object data)
     {
-        // todo: implement
+        if (head == null)
+        {
+            head = new Node();
+            head.data = data;
+            head.next = null;
+        }
+        else
+        {
+            Node toAdd = new Node();
+            toAdd.data = data;
+            Node current = head;
+            while (current.next != null)
+            {
+                current = current.next;
+            }
+            current.next = toAdd;
+        }
     }
     // Should mutate a LinkedList object in place such that the Nodes are output in the opposite order by PrintAllNodes().
     // Example A → B → C → D → becomes D → C → B → A →
