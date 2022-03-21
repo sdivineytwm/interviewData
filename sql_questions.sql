@@ -1,19 +1,34 @@
 -- 1. Show list of all ProductCategoryNames and the total number of products contained with in each category.
 -- Follow up: Show the average UnitCost for each ProductCategoryName/ProductSubcategoryName combination.
 
+select count(1),  C.ProductCategoryKey from DimProduct P
+JOIN DimProductSubcategory S on S.ProductSubCategoryKey = P.ProductSubcategoryKey
+JOIN DimProductCategory C on C.ProductCategoryKey = S.ProductCategoryKey
+group by C.ProductCategoryKey
+
+
+select AVG(P.UnitCost),  S.ProductSubCategoryName from DimProduct P
+JOIN DimProductSubcategory S on S.ProductSubCategoryKey = P.ProductSubcategoryKey
+JOIN DimProductCategory C on C.ProductCategoryKey = S.ProductCategoryKey
+group by S.ProductSubCategoryKey, S.ProductSubCategoryName
+
 
 
 -- 2. Show list of all Store Names along with the total number of machines associated with each store. Exclude stores which are closed.
 -- Follow up: Use a window function instead of group by to find the same result (or use group by if window function was used already).
-
+select S.StoreName, count(1) as MachineCount from DimStore S
+join DimMachine M on M.StoreKey = S.StoreKey
+group by S.StoreName
 
 
 -- 3. How many sales from FactSales have promotions (DimPromotions) which ended before or started after the date of the sale? Exclude sales with the “No Discount” promotion from this count.
-
+select count(1) from FactSales S
+join DimPromotion P on S.PromotionKey = P.PromotionKey
+where P.EndDate < S.DateKey or P.StartDate > S.DateKey
 
 
 -- 4. Show a list of all customers whose birthday is today.
-
+Select * from DimCustomer where BirthDate = GETDATE()
 
 
 -- 5. Which employee of the employees no longer with the company (has EndDate in DimEmployee) had the longest duration of employment (in days)?

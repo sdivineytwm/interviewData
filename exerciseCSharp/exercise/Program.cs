@@ -1,11 +1,39 @@
-﻿class Program
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+class Program
 {
     // Create a function (capToFront) that moves all capital letters to the front of a word.
     // Keep the original relative order of the upper and lowercase letters the same.
     static string capToFront(string input)
     {
         // todo: implement
-        return "";
+        Queue<char> capitalLetters = new Queue<char>();
+        foreach (char c in input)
+        {
+            if (Char.IsUpper(c))
+            {
+                capitalLetters.Enqueue(c);
+            }
+        }
+        StringBuilder newString = new StringBuilder();
+        foreach (char c in input)
+        {
+            if (Char.IsUpper(c))
+            {
+                newString.Append(capitalLetters.Dequeue());
+            }
+        }
+        foreach (char c in input)
+        {
+            if (!Char.IsUpper(c))
+            {
+                newString.Append(c);
+            }
+        }
+
+        return newString.ToString();
     }
 
     // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
@@ -15,7 +43,11 @@
     static bool getXO(string input)
     {
         // todo: implement
-        return false;
+        var xCount = input.ToLower().Count(x => x == 'x');
+        var oCount = input.ToLower().Count(o => o == 'o');
+
+        bool result = (xCount == 0 && oCount == 0 && oCount != 0) || xCount == oCount;
+        return result;
     }
 
     // Create a function (checkTitle) for checking if a string title is a title string or not.
@@ -23,28 +55,59 @@
     static bool checkTitle(string input)
     {
         // todo: implement
-        return false;
+        string[] words = input.Split(' ');
+        var result = words.All(w => Char.IsUpper(w[0]));
+        return result;
     }
 
     // Implement a function (rotateRight) which takes an array of integers and shifts each element one position to the right in a circular fashion.
     static int[] rotateRight(int[] input)
     {
         // todo: implement
-        return new int[1];
+        var right = new int[input.Length];
+        right[0] = input[input.Length - 1];
+        for (int i = 0; i < input.Length - 1; i++)
+        {
+            right[i + 1] = input[i];
+        }
+        return right;
     }
 
     // Create a function (isPalindrome) which takes a string and returns true if it’s the same forwards or backwards.
     static bool isPalindrome(string input)
     {
         // todo: implement
-        return false;
+        var data = input.Reverse();
+        StringBuilder reverse = new StringBuilder();
+        foreach (char c in data )
+        {
+            reverse.Append(c);
+        }
+        bool check = reverse.ToString() == input;
+        return check;
     }
 
     // Create a function (fullAlphaRetainWords) which takes every letter in every word and puts it in alphabetical order, while retaining the original word lengths.
     static string fullAlphaRetainWords(string input)
     {
         // todo: implement
-        return "";
+   
+
+        var sorted = String.Concat(input.OrderBy(c => c)).Trim();
+        StringBuilder newString = new StringBuilder();
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (input[i] == ' ')
+            {
+                newString.Append(' ');
+            }
+            else if (i < sorted.Length && sorted[i] != ' ')
+            {
+                newString.Append(sorted[i]);
+            }
+        }
+
+        return newString.ToString();
     }
 
     // Implement the GetCustomerByCustomerKey data layer function.
@@ -82,12 +145,12 @@
         {
             logData("hello world");
         }
-        public static void logData(string data)
+        async public static void logData(string data)
         {
             string logfileName = Path.GetTempFileName();
             using (StreamWriter sw = new StreamWriter(logfileName))
             {
-                sw.WriteLine(data);
+                await sw.WriteLineAsync(data);
                 Console.WriteLine(data);
             }
         }
