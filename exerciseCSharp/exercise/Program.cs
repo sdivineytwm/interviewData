@@ -1,4 +1,7 @@
-﻿class Program
+﻿using System.Globalization;
+using System.Text;
+
+class Program
 {
     // Create a function (capToFront) that moves all capital letters to the front of a word.
     // Keep the original relative order of the upper and lowercase letters the same.
@@ -155,6 +158,72 @@
         BTreePrinter.Print(btr._root);
         btr.Invert(ref btr._root);
         BTreePrinter.Print(btr._root);
+
+        // Fruit Smoothie
+        Console.WriteLine("Fruit Smoothie Tests:");
+        Smoothie s1 = new Smoothie(new string[] { "Banana" });
+        Console.WriteLine(s1.GetCost() == "$0.50" ? "PASSED" : "FAILED");
+        Console.WriteLine(s1.GetPrice() == "$1.25" ? "PASSED" : "FAILED");
+        Console.WriteLine(s1.GetName() == "Banana Smoothie" ? "PASSED" : "FAILED");
+        Smoothie s2 = new Smoothie(new string[] { "Raspberries", "Strawberries", "Blueberries" });
+        Console.WriteLine(s2.GetCost() == "$3.50" ? "PASSED" : "FAILED");
+        Console.WriteLine(s2.GetPrice() == "$8.75" ? "PASSED" : "FAILED");
+        Console.WriteLine(s2.GetName() == "Blueberry Raspberry Strawberry Fusion" ? "PASSED" : "FAILED");
+    }
+}
+
+public class Smoothie
+{
+    static Dictionary<string, string> prices = new Dictionary<string, string>()
+    {
+        { "Strawberries", "$1.50" },
+        { "Banana", "$0.50" },
+        { "Mango", "$2.50" },
+        { "Blueberries", "$1.00" },
+        { "Raspberries", "$1.00" },
+        { "Apple", "$1.75" },
+        { "Pineapple", "$3.50" }
+    };
+    /*
+     * Create a property called Ingredients
+     * Create a GetCost method which calculates the total cost of ingredients used to make the smoothie.
+     * Create a GetPrice method which returns the number from GetCost plus the number from GetCost multiplied by 1.5.
+     *      Round to two decimal places.
+     * Create a GetName method which gets the ingredients and puts them in alphabetical order into a nice descriptive sentence.
+     *      If there are multiple ingredients, add the word "Fusion" to the end but otherwise, add "Smoothie"
+     *      Change "-berries" to "-berry"
+     * Examples:
+     * s1 = Smoothie(new string[] { "Banana" })
+     * s1.Ingredients -> { "Banana" }
+     * s1.GetCost() -> "$0.50"
+     * s1.GetPrice() -> "$1.25"
+     * s1.GetName() -> "Banana Smoothie"
+     * 
+     * s2 = Smoothie(new string[] { "Raspberries", "Strawberries", "Blueberries" })
+     * s2.Ingredients -> { "Raspberries", "Strawberries", "Blueberries" }
+     * s2.GetCost() -> "$3.50"
+     * s2.GetPrice() -> "$8.75"
+     * s2.GetName() -> "Blueberry Raspberry Strawberry Fusion"
+     *
+     */
+    public Smoothie(string[] ingredients)
+    {
+        // todo: implement
+    }
+    public string GetCost()
+    {
+        // todo: implement
+        return "";
+    }
+    public string GetPrice()
+    {
+        // todo: implement
+        return "";
+    }
+    public string GetName()
+    {
+        // todo: implement
+        return "";
     }
 }
 
@@ -284,7 +353,6 @@ public class BTree
         }
     }
 }
-
 public static class BTreePrinter
 {
     class NodeInfo
