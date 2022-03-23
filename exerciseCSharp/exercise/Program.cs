@@ -8,7 +8,22 @@ class Program
     static string capToFront(string input)
     {
         // todo: implement
-        return "";
+        int length = input.Length;
+        string beg = "";
+
+        for (int i = 0; i < length; i++)
+        {
+            if(Char.IsUpper(input.ElementAt(i)))
+            {
+                beg = beg + input.ElementAt(i);
+                input = input.Remove(i, 1);
+                length = input.Length;
+            }
+        }
+
+        input = beg + input;
+            
+        return input;
     }
 
     // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
@@ -32,15 +47,35 @@ class Program
     // Implement a function (rotateRight) which takes an array of integers and shifts each element one position to the right in a circular fashion.
     static int[] rotateRight(int[] input)
     {
+        int[] arr = new int[input.Length];
+        for(int i = 0; i < input.Length; i++)
+        {
+            arr[(i + 1) % input.Length] = input[i]; 
+        }
+
+
         // todo: implement
-        return new int[1];
+        return arr;
     }
 
     // Create a function (isPalindrome) which takes a string and returns true if it’s the same forwards or backwards.
     static bool isPalindrome(string input)
     {
+        int start = 0;
+        int end = input.Length-1;
+
+        while(start < end)
+        {
+            if(input.ElementAt(start) != input.ElementAt(end))
+            {
+                return false;
+            }
+            start++;
+            end--;
+        }
+
         // todo: implement
-        return false;
+        return true;
     }
 
     // Create a function (fullAlphaRetainWords) which takes every letter in every word and puts it in alphabetical order, while retaining the original word lengths.
@@ -81,14 +116,14 @@ class Program
     // Transform the Sync class into a version that is asynchronous
     class Sync
     {
-        static void Main(string[] args)
+        static async void Main(string[] args)
         {
             logData("hello world");
         }
-        public static void logData(string data)
+        public async static void logData(string data)
         {
             string logfileName = Path.GetTempFileName();
-            using (StreamWriter sw = new StreamWriter(logfileName))
+            await using (StreamWriter sw = new StreamWriter(logfileName))
             {
                 sw.WriteLine(data);
                 Console.WriteLine(data);
@@ -174,6 +209,7 @@ class Program
 
 public class Smoothie
 {
+    private string[] _ingredients;
     static Dictionary<string, string> prices = new Dictionary<string, string>()
     {
         { "Strawberries", "$1.50" },
@@ -209,10 +245,22 @@ public class Smoothie
     public Smoothie(string[] ingredients)
     {
         // todo: implement
+        _ingredients = ingredients;
+
     }
     public string GetCost()
     {
         // todo: implement
+        int total = 0;
+
+        foreach(var i in _ingredients)
+        {
+            string value = "";
+            var val = prices.TryGetValue(i, out value);
+
+            total += Int32.Parse(value);
+        }
+
         return "";
     }
     public string GetPrice()
@@ -281,6 +329,16 @@ public class LinkedList
     public void Reverse()
     {
         // todo: implement
+        Node current = head;
+        Node prev = head.next;
+        Node next = null; 
+
+        while(head.next != null)
+        {
+            current.next = next;
+            next = prev;
+            current = prev;  
+        }
     }
 }
 public class BTree
