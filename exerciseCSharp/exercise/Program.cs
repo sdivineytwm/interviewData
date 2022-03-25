@@ -7,18 +7,36 @@ class Program
     // Keep the original relative order of the upper and lowercase letters the same.
     static string capToFront(string input)
     {
+        StringBuilder result = new StringBuilder();
         // todo: implement
-        return "";
+        foreach (char ch in input)
+        {
+            if (ch >= 'A' && ch <= 'Z')
+            {
+                result.Append(ch);
+            }
+        }
+        foreach(char ch in input)
+        {
+            if(ch>='a' && ch<='z')
+            {
+                result.Append(ch);
+            }
+        }
+        return result.ToString();
+
     }
 
     // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
     // Return a boolean value. Return true if the amount of x’s and o’s are the same. Return false if they aren’t the same amount.
     // The string can contain any character.
     // When “x” and “o” are not in the string, return true.
-    static bool getXO(string input)
+    static bool getXO(string input) //hellox  fox 
     {
         // todo: implement
-        return false;
+        int xCount = input.ToLower().Where(x => x == 'x').Count();
+        int oCount = input.ToLower().Where(x => x == 'o' ).Count();
+        return xCount == oCount;
     }
 
     // Create a function (checkTitle) for checking if a string title is a title string or not.
@@ -29,11 +47,19 @@ class Program
         return false;
     }
 
+
+
     // Implement a function (rotateRight) which takes an array of integers and shifts each element one position to the right in a circular fashion.
-    static int[] rotateRight(int[] input)
+    static int[] rotateRight(int[] input) //3 4 5 5 3 4
     {
         // todo: implement
-        return new int[1];
+        int[] result = new int[input.Length];
+        result[0] = input[input.Length - 1];
+        for(int i=1; i<input.Length ; i++)
+        {
+            result[i] = input[i - 1];
+        }
+        return result;
     }
 
     // Create a function (isPalindrome) which takes a string and returns true if it’s the same forwards or backwards.
@@ -133,7 +159,7 @@ class Program
         Console.WriteLine(fullAlphaRetainWords("hello world") == "dehll loorw" ? "PASSED" : "FAILED");
         Console.WriteLine(fullAlphaRetainWords("total wine and more") == "aadee ilmn noo rttw" ? "PASSED" : "FAILED");
         Console.WriteLine(fullAlphaRetainWords("have a nice day") == "aaac d eehi nvy" ? "PASSED" : "FAILED");
-        
+
         Sync.logData("hello world");
 
         LinkedList test1 = new LinkedList();

@@ -1,24 +1,36 @@
 -- 1. Show list of all ProductCategoryNames and the total number of products contained with in each category.
 -- Follow up: Show the average UnitCost for each ProductCategoryName/ProductSubcategoryName combination.
 
-
+	SELECT PC.ProductCategoryName,  PSC.ProductSubcategoryName,  AVG(P.UnitCost)
+	FROM dbo.DimProductCategory PC
+	INNER JOIN dbo.DimProductSubcategory PSC ON PC.ProductCategoryKey = PSC.ProductCategoryKey
+	INNER JOIN dbo.DimProduct P ON P.ProductSubcategoryKey = PSC.ProductSubcategoryKey
+	GROUP BY PC.ProductCategoryName, PSC.ProductSubcategoryName,  PSC.ProductCategoryKey
 
 -- 2. Show list of all Store Names along with the total number of machines associated with each store. Exclude stores which are closed.
 -- Follow up: Use a window function instead of group by to find the same result (or use group by if window function was used already).
+	SELECT DISTINCT ST.StoreName, COUNT(MA.MachineKey) OVER (Partition By St.StoreName)
+	FROM dbo.DimStore ST 
+	INNER JOIN dbo.DimMachine MA ON MA.StoreKey = ST.StoreKey
+	WHERE ST.Status like 'On'
+	--GROUP BY St.StoreName
 
-
+	
 
 -- 3. How many sales from FactSales have promotions (DimPromotions) which ended before or started after the date of the sale? Exclude sales with the “No Discount” promotion from this count.
 
 
 
 -- 4. Show a list of all customers whose birthday is today.
+SELECT * FROM dbo.DimCustomer Where Month(BirthDate) = MONTH(Getdate	()) AND  DAY(BirthDate) = DAY(Getdate	())
 
 
 
 -- 5. Which employee of the employees no longer with the company (has EndDate in DimEmployee) had the longest duration of employment (in days)?
-
-
+	SELECT t1.FirstName, StartDate, EndDate FROM
+	(SELECT FirstName,  StartDate, EndDate, DATEDIFF(ENdDate, StartDate) as Diff
+	FROM dbo.DimEmployee WHERE EndDate IS NOT NULL)t1
+	WHERE 
 
 -- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
