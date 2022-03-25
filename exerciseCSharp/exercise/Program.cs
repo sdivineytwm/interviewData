@@ -7,8 +7,24 @@ class Program
     // Keep the original relative order of the upper and lowercase letters the same.
     static string capToFront(string input)
     {
+
+        string upper = "";
+        string lower = "";
+        char[] aary = input.ToCharArray();
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (char.IsUpper(aary[i]))
+            {
+                upper = upper + aary[i];
+            }
+            else
+                lower = lower+ aary[i];
+        }
+        return upper + lower;
+
+        //capToFront("moveMENT") == "MENTmove" ? "PASSED" : "FAILED");
         // todo: implement
-        return "";
+       
     }
 
     // Create a function(getXO) that takes a string, checks if it has the same number of x’s and o’s and returns either true or false.
@@ -40,7 +56,10 @@ class Program
     static bool isPalindrome(string input)
     {
         // todo: implement
-        return false;
+
+        string reversedString = new string(input.Reverse().ToArray());
+        return input == reversedString;
+        
     }
 
     // Create a function (fullAlphaRetainWords) which takes every letter in every word and puts it in alphabetical order, while retaining the original word lengths.
@@ -133,7 +152,7 @@ class Program
         Console.WriteLine(fullAlphaRetainWords("hello world") == "dehll loorw" ? "PASSED" : "FAILED");
         Console.WriteLine(fullAlphaRetainWords("total wine and more") == "aadee ilmn noo rttw" ? "PASSED" : "FAILED");
         Console.WriteLine(fullAlphaRetainWords("have a nice day") == "aaac d eehi nvy" ? "PASSED" : "FAILED");
-        
+
         Sync.logData("hello world");
 
         LinkedList test1 = new LinkedList();

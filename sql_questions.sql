@@ -1,6 +1,11 @@
 -- 1. Show list of all ProductCategoryNames and the total number of products contained with in each category.
 -- Follow up: Show the average UnitCost for each ProductCategoryName/ProductSubcategoryName combination.
 
+  SELECT pc.ProductCategoryName,psc.ProductSubcategoryName, AVG(pd.UnitCost)  FROM dbo.DimProductCategory pc
+  inner join dbo.DimProductSubcategory psc on psc.ProductCategoryKey=pc.ProductCategoryKey
+  inner join dbo.DimProduct pd on pd.ProductSubcategoryKey=psc.ProductSubcategoryKey
+  Group by pc.ProductCategoryName,psc.ProductSubcategoryName
+
 
 
 -- 2. Show list of all Store Names along with the total number of machines associated with each store. Exclude stores which are closed.
@@ -14,7 +19,7 @@
 
 -- 4. Show a list of all customers whose birthday is today.
 
-
+SELECT BirthDate FROM DimCustomer WHERE 
 
 -- 5. Which employee of the employees no longer with the company (has EndDate in DimEmployee) had the longest duration of employment (in days)?
 
