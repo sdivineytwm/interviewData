@@ -1,11 +1,41 @@
 -- 1. Show list of all ProductCategoryNames and the total number of products contained with in each category.
 -- Follow up: Show the average UnitCost for each ProductCategoryName/ProductSubcategoryName combination.
 
+select DPC.ProductCategoryName, DPS.ProductSubcategoryName, avg(DP.UnitCost) as averageCost from DimProduct DP with (nolock)
+inner join DimProductSubCategory DPS with (nolock)
+on DP.ProductSubcategoryKey = DPS.ProductSubcategoryKey
+inner join DimProductCategory DPC with (nolock)
+on DPS.ProductCategoryKey = DPC.ProductCategoryKey
+group by DPC.ProductCategoryName, DPS.ProductSubcategoryName
+
+select *  from DimProduct DP with (nolock)
+inner join DimProductSubCategory DPS with (nolock)
+on DP.ProductSubcategoryKey = DPS.ProductSubcategoryKey
+inner join DimProductCategory DPC with (nolock)
+on DPS.ProductCategoryKey = DPC.ProductCategoryKey
+where ProductCategoryName='Audio'
+
+
+
+select top 10 * from DimStore with (nolock)
+select top 10 * from DimMachine with (nolock)
 
 
 -- 2. Show list of all Store Names along with the total number of machines associated with each store. Exclude stores which are closed.
 -- Follow up: Use a window function instead of group by to find the same result (or use group by if window function was used already).
 
+select DS.StoreName,count(*)
+from DimStore DS with (nolock)
+inner join DimMachine DM with (nolock)
+on DS.StoreKey = DM.StoreKey
+where DS.CloseDate is null
+group by DS.StoreName
+
+select DS.StoreName 
+from DimStore DS with (nolock)
+inner join DimMachine DM with (nolock)
+on DS.StoreKey = DM.StoreKey
+where DS.CloseDate is null
 
 
 -- 3. How many sales from FactSales have promotions (DimPromotions) which ended before or started after the date of the sale? Exclude sales with the “No Discount” promotion from this count.
@@ -13,12 +43,21 @@
 
 
 -- 4. Show a list of all customers whose birthday is today.
-
+select top 10 * from DimCustomer with (nolock)
+where Month(BirthDate) = Month(GETDATE()) and Day(BirthDate) = Day(GETDATE())
 
 
 -- 5. Which employee of the employees no longer with the company (has EndDate in DimEmployee) had the longest duration of employment (in days)?
-
-
+select top 1 *from [dbo].[DimEmployee] DE with (nolock)
+join 
+(
+select EmployeeKey, Max(DATEDIFF(dd, startDate, EndDate)) as duration
+from [dbo].[DimEmployee] with (nolock)
+where EndDate is not null
+group by EmployeeKey
+)A
+ON A.EmployeeKey = DE.EmployeeKey
+Order by duration
 
 -- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

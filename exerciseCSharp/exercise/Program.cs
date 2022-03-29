@@ -98,6 +98,7 @@ class Program
 
     public static void Main(string[] args)
     {
+        /*
         Console.WriteLine("capToFront tests:");
         Console.WriteLine(capToFront("hApPy") == "APhpy" ? "PASSED" : "FAILED");
         Console.WriteLine(capToFront("moveMENT") == "MENTmove" ? "PASSED" : "FAILED");
@@ -169,6 +170,28 @@ class Program
         Console.WriteLine(s2.GetCost() == "$3.50" ? "PASSED" : "FAILED");
         Console.WriteLine(s2.GetPrice() == "$8.75" ? "PASSED" : "FAILED");
         Console.WriteLine(s2.GetName() == "Blueberry Raspberry Strawberry Fusion" ? "PASSED" : "FAILED");
+        */
+
+        int[,] inputArray = new int[,] { { 0, 0, 0, 0, 1 }, { 0, 0, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 0, 0, 0, 1, 1 } };
+        FindFlipIndex(inputArray);
+
+    }
+
+    private static void FindFlipIndex(int[,] inputArray)
+    {
+        int rowLength = inputArray.GetLength(0);
+        int colLength = inputArray.GetLength(1);
+        for (int row = 0; row < rowLength; row++)
+        {
+            for (int col = 0; col < colLength; col++)
+            {
+                if (inputArray[row, col] == 1)
+                {
+                    Console.WriteLine(col);
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -452,3 +475,12 @@ public static class BTreePrinter
         Console.BackgroundColor = color;
     }
 }
+
+
+
+/*
+  0 0 0 0 1
+  0 0 1 1 1 
+  1 1 1 1 1
+  0 0 0 1 1
+*/
